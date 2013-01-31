@@ -22,6 +22,9 @@ EM.run do
       socket.send_command "Network.getResponseBody", {request_id: 1} do |response|
         puts response
       end
+      socket.get_har do |har|
+        puts har
+      end
     end
   end
 end
