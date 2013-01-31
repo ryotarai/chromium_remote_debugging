@@ -5,8 +5,6 @@
 A library for ruby to manipulate [Chromium Remote Debugging API](https://developers.google.com/chrome-developer-tools/docs/debugger-protocol)
 
 ## Objective
-* Use em-websocket(https://github.com/igrigorik/em-websocket)
-
 ```
 client = ChromiumRemoteDebugging::Client.new('localhost', 9222)
 EM.run do
@@ -18,10 +16,10 @@ EM.run do
       socket.onclose
         puts "onclose"
       end
-      socket.listen "Network.dataReceived" do
+      socket.onnotification "Network.dataReceived" do
         puts "received Network.dataReceived notification"
       end
-      socket.execute "Network.canClearBrowserCache" do |response|
+      socket.send_command "Network.getResponseBody", {request_id: 1} do |response|
         puts response
       end
     end
