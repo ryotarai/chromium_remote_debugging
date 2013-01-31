@@ -7,6 +7,27 @@ A library for ruby to manipulate [Chromium Remote Debugging API](https://develop
 ## Objective
 * Use em-websocket(https://github.com/igrigorik/em-websocket)
 
+```
+client = ChromiumRemoteDebugging::Client.new('localhost', 9222)
+EM.run do
+  Client.pages.each do |page|
+    page.em_run do |socket|
+      socket.onopen do |handshake|
+        puts "onopen"
+      end
+      socket.onclose
+        puts "onclose"
+      end
+      socket.listen "Network.dataReceived" do
+        puts "received Network.dataReceived notification"
+      end
+      socket.execute "Network.canClearBrowserCache" do |response|
+        puts response
+      end
+    end
+  end
+end
+```
 <!--
 ## Installation
 
@@ -25,6 +46,10 @@ Or install it yourself as:
 -->
 
 ## Usage
+```bash
+# on Mac OSX
+$ "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --user-data-dir=/tmp/google_chrome --remote-debugging-port=9222
+```
 
 ```ruby
 [1] pry(main)> require 'chromium_remote_debugging'
