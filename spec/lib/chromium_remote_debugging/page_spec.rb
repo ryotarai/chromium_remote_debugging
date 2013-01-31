@@ -2,31 +2,31 @@ require 'spec_helper'
 
 module ChromiumRemoteDebugging
 describe Page do
-  let(:devtoolsFrontendUrl) {"devtoolsFrontendUrl"}
-  let(:faviconUrl) {"faviconUrl"}
-  let(:thumbnailUrl) {"thumbnailUrl"}
+  let(:devtools_frontend_url) {"devtoolsFrontendUrl"}
+  let(:favicon_url) {"faviconUrl"}
+  let(:thumbnail_url) {"thumbnailUrl"}
   let(:title) {"title"}
   let(:url) {"url"}
-  let(:webSocketDebuggerUrl) {"webSocketDebuggerUrl"}
+  let(:web_socket_debugger_url) {"webSocketDebuggerUrl"}
   let(:opts) do
     {
-      devtoolsFrontendUrl: devtoolsFrontendUrl,
-      faviconUrl: faviconUrl,
-      thumbnailUrl: thumbnailUrl,
+      devtools_frontend_url: devtools_frontend_url,
+      favicon_url: favicon_url,
+      thumbnail_url: thumbnail_url,
       title: title,
       url: url,
-      webSocketDebuggerUrl: webSocketDebuggerUrl,
+      web_socket_debugger_url: web_socket_debugger_url,
     }
   end
   let(:instance) {described_class.new(opts)}
   describe "properties" do
     subject {instance}
-    its(:devtoolsFrontendUrl) { should == devtoolsFrontendUrl }
-    its(:faviconUrl) { should == faviconUrl }
-    its(:thumbnailUrl) { should == thumbnailUrl }
+    its(:devtools_frontend_url) { should == devtools_frontend_url }
+    its(:favicon_url) { should == favicon_url }
+    its(:thumbnail_url) { should == thumbnail_url }
     its(:title) { should == title }
     its(:url) { should == url }
-    its(:webSocketDebuggerUrl) { should == webSocketDebuggerUrl }
+    its(:web_socket_debugger_url) { should == web_socket_debugger_url }
   end
 end
 end
