@@ -11,12 +11,12 @@ class Client
   def pages
     pages_info.map do |page_info|
       Page.new(
-        devtoolsFrontendUrl: page_info["devtoolsFrontendUrl"],
-        faviconUrl: page_info["faviconUrl"],
-        thumbnailUrl: page_info["thumbnailUrl"],
+        devtools_frontend_url: page_info["devtoolsFrontendUrl"],
+        favicon_url: page_info["faviconUrl"],
+        thumbnail_url: page_info["thumbnailUrl"],
         title: page_info["title"],
         url: page_info["url"],
-        webSocketDebuggerUrl: page_info["webSocketDebuggerUrl"],
+        web_socket_debugger_url: page_info["webSocketDebuggerUrl"],
       )
     end
   end

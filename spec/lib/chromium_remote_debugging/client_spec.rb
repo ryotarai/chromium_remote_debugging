@@ -2,22 +2,8 @@ require 'spec_helper'
 
 module ChromiumRemoteDebugging
 describe Client do
-  let(:host) { "localhost" }
-  let(:port) { 9222 }
-  let(:instance) { described_class.new(host, port)}
-
-  describe '#pages' do
-    subject {instance.pages}
-    it "returns an array" do
-      should be_an_instance_of Array
-    end
-    it "returns an array of Page" do
-      subject.each{|page| page.should be_an_instance_of Page}
-    end
-  end
-  describe '#pages' do
-    let(:json) do
-      <<-EOS
+  let(:page_info_json) do
+    <<-EOS
 [ {
    "devtoolsFrontendUrl": "/devtools/devtools.html?ws=localhost:9222/devtools/page/15_1",
    "faviconUrl": "http://www.bing.com/s/wlflag.ico",
@@ -35,12 +21,26 @@ describe Client do
 } ]
 EOS
     end
-    subject {instance.pages_info}
-    before do
-      Net::HTTP.any_instance.should_receive(:get).with('/json').and_return(double(body: json))
+  let(:host) { "localhost" }
+  let(:port) { 9222 }
+  let(:instance) { described_class.new(host, port)}
+  before do
+    stub_request(:get, "http://#{host}:#{port}/json").
+      to_return(:status => 200, :body => page_info_json, :headers => {})
+  end
+  describe '#pages' do
+    subject {instance.pages}
+    it "returns an array" do
+      should be_an_instance_of Array
     end
+    it "returns an array of Page" do
+      subject.each{|page| page.should be_an_instance_of Page}
+    end
+  end
+  describe '#pages' do
+    subject {instance.pages_info}
     it "returns pages information" do
-      should == JSON.parse(json)
+      should == JSON.parse(page_info_json)
     end
   end
 end
