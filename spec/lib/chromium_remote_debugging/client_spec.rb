@@ -25,8 +25,7 @@ EOS
   let(:port) { 9222 }
   let(:instance) { described_class.new(host, port)}
   before do
-    stub_request(:get, "http://#{host}:#{port}/json").
-      to_return(:status => 200, :body => page_info_json, :headers => {})
+    Net::HTTP.stub(start: stub(body: page_info_json))
   end
   describe '#pages' do
     subject {instance.pages}
