@@ -8,5 +8,6 @@ gem 'guard'
 gem 'guard-rspec'
 gem 'growl'
 
-gem 'webmock'
+gem 'evented-spec'
+gem 'em-websocket'
 
