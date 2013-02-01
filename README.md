@@ -5,7 +5,9 @@
 A library for ruby to manipulate [Chromium Remote Debugging API](https://developers.google.com/chrome-developer-tools/docs/debugger-protocol)
 
 ## Objective
-```
+* get_har (c.f. https://github.com/cyrus-and/chrome-har-capturer)
+
+```ruby
 client = ChromiumRemoteDebugging::Client.new('localhost', 9222)
 EM.run do
   Client.pages.each do |page|
@@ -13,17 +15,14 @@ EM.run do
       socket.onopen do |handshake|
         puts "onopen"
       end
-      socket.onclose
+      socket.onclose do
         puts "onclose"
       end
       socket.onnotification "Network.dataReceived" do
         puts "received Network.dataReceived notification"
       end
-      socket.send_command "Network.getResponseBody", {request_id: 1} do |response|
+      socket.send_command "Network.getResponseBody", {"requestId" => 1} do |response|
         puts response
-      end
-      socket.get_har do |har|
-        puts har
       end
     end
   end
