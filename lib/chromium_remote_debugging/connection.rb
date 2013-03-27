@@ -65,6 +65,7 @@ class Connection
       # @logger.info "send from buffer"
       send content
     end
+    @send_buffer = []
   end
   def handle_onclose(event)
     @onclose_handler.call(event) if @onclose_handler
