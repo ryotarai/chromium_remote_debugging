@@ -2,6 +2,54 @@ require 'faye/websocket'
 
 module ChromiumRemoteDebugging
 class Connection
+  module PageCommands
+    def navigate(opts, &block)
+      url = opts.fetch(:url)
+      send_command "Page.navigate", "url" => url, &block
+    end
+  end
+
+  module RuntimeCommands
+    def evaluate(opts)
+      params = {}
+      params["expression"] = opts.fetch(:expression)
+      params["objectGroup"] = opts[:object_group] if opts[:object_group]
+      params["returnByValue"] = opts[:returnByValue] if opts[:returnByValue]
+      send_command "Runtime.evaluate", params do |result|
+        result["result"] = Types::RemoteObject.new(result["result"])
+        yield result
+      end
+    end
+  end
+
+  module NetworkNotifications
+    def on_data_received(&block)
+      onnotification "Network.dataReceived", &block
+    end
+    def on_loading_failed(&block)
+      onnotification "Network.loadingFailed", &block
+    end
+    def on_loading_finished(&block)
+      onnotification "Network.loadingFinished", &block
+    end
+    def on_request_served_from_cache(&block)
+      onnotification "Network.requestServedFromCache", &block
+    end
+    def on_request_served_from_memory_cache(&block)
+      onnotification "Network.requestServedFromMemoryCache", &block
+    end
+    def on_request_will_be_sent(&block)
+      onnotification "Network.requestWillBeSent", &block
+    end
+    def on_response_recieved(&block)
+      onnotification "Network.responseReceived", &block
+    end
+  end
+
+  include PageCommands
+  include RuntimeCommands
+  include NetworkNotifications
+
   def initialize(ws_url)
     @ws = ::Faye::WebSocket::Client.new(ws_url)
 
