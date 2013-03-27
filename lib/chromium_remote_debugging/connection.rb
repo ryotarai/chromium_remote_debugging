@@ -5,7 +5,7 @@ class Connection
   def initialize(ws_url)
     @ws = ::Faye::WebSocket::Client.new(ws_url)
 
-    set_handers
+    set_handlers
 
     @request_id = 1
     @callbacks = {}
@@ -18,7 +18,7 @@ class Connection
     @onmessage_handler = nil
   end
 
-  def set_handers
+  def set_handlers
     @ws.onopen = lambda do |event|
       handle_onopen event
     end
