@@ -140,7 +140,7 @@ class Connection
 
 
   def send(content)
-    if @ws.ready_state == ::Faye::WebSocket::API::ReadyStates::CONNECTING
+    if @ws.ready_state == ::Faye::WebSocket::API::CONNECTING
       @send_buffer << content
       # @logger.info "added to buffer because the socket is now connecting"
       return
